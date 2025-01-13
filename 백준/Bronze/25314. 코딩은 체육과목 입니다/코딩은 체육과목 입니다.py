@@ -1,7 +1,3 @@
-N = int(input())
-
-while N >= 4:
+for _ in range(int(input()) // 4):
   print("long", end=" ")
-  N -= 4
-
 print("int")
