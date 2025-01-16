@@ -7,11 +7,6 @@ while True:
     if n % i == 0:
       li.append(i)
   if sum(li) == n:
-    print(n, end=' = ')
-    for i in range(len(li)):
-      print(li[i], end=' ')
-      if i + 1 != len(li):
-        print('+', end=' ')
-    print()
+    print(n, ' = ', ' + '.join(str(i) for i in li), sep='')
   else:
     print(f'{n} is NOT perfect.')
