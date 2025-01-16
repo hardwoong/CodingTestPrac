@@ -1,19 +1,12 @@
-def isSosu(n):
-  if n == 1:
-    return False
-  elif n == 2:
-    return True
-  for i in range(2, n):
-    if n % i == 0:
-      return False
-  
-  return True
-
-N = int(input())
+n = int(input())
 li = list(map(int, input().split()))
 cnt = 0
-
-for i in li:
-  if isSosu(i):
+for num in li:
+  if num == 1:
+    continue
+  for x in range(2, num):
+    if num % x == 0:
+      break
+  else:
     cnt += 1
 print(cnt)
