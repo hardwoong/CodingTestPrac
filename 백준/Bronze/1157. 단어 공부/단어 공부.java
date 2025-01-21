@@ -1,40 +1,27 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
-class Main {
+public class Main {
   public static void main(String[] args) throws IOException {
-    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    String word = br.readLine();
-    br.close();
-    word = word.toUpperCase();
     int alpha[] = new int[26];
-    for (int i = 0; i < word.length(); i++) {
-      alpha[word.charAt(i) - 'A']++;
+    int word = System.in.read();
+    while (word > 64) {
+      if (word < 91) {
+        alpha[word - 65]++;
+      } else {
+        alpha[word - 97]++;
+      }
+      word = System.in.read();
     }
-
     int maxValue = 0;
-    int maxIndex = 0;
-    boolean isSame = false;
-
-    for (int i = 0; i < alpha.length; i++) {
-      if (maxValue < alpha[i]) {
+    int res = 0;
+    for (int i = 0; i < 26; i++) {
+      if (alpha[i] > maxValue) {
         maxValue = alpha[i];
-        maxIndex = i;
-        isSame = false;
-      } else if (maxValue == alpha[i]) {
-        isSame = true;
+        res = i;
+      } else if (alpha[i] == maxValue) {
+        res = -2; // ?의 아스키코드는 63
       }
     }
-    if (isSame) {
-      bw.write("?\n");
-    } else {
-      bw.write(String.valueOf((char)(maxIndex + 'A')) + "\n");
-    }
-    bw.flush();
-    bw.close();
+    System.out.println((char) (res + 65));
   }
 }
