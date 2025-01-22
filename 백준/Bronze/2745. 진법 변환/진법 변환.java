@@ -8,6 +8,19 @@ public class Main {
     String inps[] = br.readLine().split(" ");
     String N = inps[0];
     int B = Integer.parseInt(inps[1]);
-    System.out.println(Integer.parseInt(N, B));
+    int tmp = 1;
+    int sum = 0;
+
+    for (int i = N.length() - 1; i >= 0; i--) {
+      char C = N.charAt(i);
+      if ('A' <= C && C <= 'Z') {
+        sum += (C - 'A' + 10) * tmp;
+      } else {
+        sum += (C - '0') * tmp;
+      }
+      tmp *= B;
+    }
+
+    System.out.println(sum);
   }
 }
