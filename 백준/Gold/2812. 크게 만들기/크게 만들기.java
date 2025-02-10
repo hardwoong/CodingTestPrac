@@ -1,41 +1,38 @@
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
-import java.util.Stack;
+import java.io.OutputStreamWriter;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
 public class Main {
-  public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    StringTokenizer st = new StringTokenizer(br.readLine());
-    
-    int n = Integer.parseInt(st.nextToken());
-    int k = Integer.parseInt(st.nextToken()); 
-    String nums = br.readLine();
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine());
 
-    Stack<Character> stack = new Stack<>();
+		int n = Integer.parseInt(st.nextToken());
+		int k = Integer.parseInt(st.nextToken());
 
-    for (int i = 0; i < n; i++) {
-      char num = nums.charAt(i);
+		String input = br.readLine();
+		char[] arr = input.toCharArray();
+		Deque<Character> dq = new ArrayDeque<>();
 
-      while (!stack.isEmpty() && k > 0 && stack.peek() < num) {
-        stack.pop();
-        k--;
-      }
+		for (int i = 0; i < arr.length; i++) {
+			while (!dq.isEmpty() && k > 0 && dq.getLast() < arr[i]) {
+				dq.removeLast();
+				k--;
+			}
+			dq.addLast(arr[i]);
+		}
 
-      stack.push(num);
-    }
+		StringBuilder ans = new StringBuilder();
+		while (dq.size() > k) {
+			ans.append(dq.removeFirst());
+		}
 
-    while (k > 0) {
-      stack.pop();
-      k--;
-    }
-
-    StringBuilder sb = new StringBuilder();
-    while (!stack.isEmpty()) {
-      sb.append(stack.pop());
-    }
-
-    System.out.println(sb.reverse().toString());
-  }
+		bw.write(ans.toString() + "\n");
+		bw.flush();
+	}
 }
