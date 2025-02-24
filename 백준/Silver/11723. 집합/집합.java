@@ -1,43 +1,41 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.StringTokenizer;
 
 public class Main {
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    StringBuilder sb = new StringBuilder();
-    int M = Integer.parseInt(br.readLine());
-    int bitSet = 0; // 비트마스크 초기화
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    int m = Integer.parseInt(br.readLine());
+    int bitmask = 0;  // 20개의 숫자를 표현하는 비트마스크
 
-    while (M-- > 0) {
-      String[] input = br.readLine().split(" ");
-      String cmd = input[0];
-      int num = 0;
-      if (!cmd.equals("all") && !cmd.equals("empty")) {
-        num = Integer.parseInt(input[1]) - 1; // 0~19로 맞춤
-      }
+    for (int i = 0; i < m; i++) {
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      String command = st.nextToken();
 
-      switch (cmd) {
-        case "add":
-          bitSet |= (1 << num);
-          break;
-        case "remove":
-          bitSet &= ~(1 << num);
-          break;
-        case "check":
-          sb.append(((bitSet & (1 << num)) != 0) ? "1\n" : "0\n");
-          break;
-        case "toggle":
-          bitSet ^= (1 << num);
-          break;
-        case "all":
-          bitSet = (1 << 20) - 1; // 20개의 모든 비트를 1로 설정
-          break;
-        case "empty":
-          bitSet = 0;
-          break;
+      if (command.equals("add")) {
+        int x = Integer.parseInt(st.nextToken());
+        bitmask |= (1 << (x - 1));  // x번째 비트를 1로 설정
+      } 
+      else if (command.equals("remove")) {
+        int x = Integer.parseInt(st.nextToken());
+        bitmask &= ~(1 << (x - 1));  // x번째 비트를 0으로 설정
+      } 
+      else if (command.equals("check")) {
+        int x = Integer.parseInt(st.nextToken());
+        bw.write(((bitmask & (1 << (x - 1))) != 0 ? "1\n" : "0\n"));
+      } 
+      else if (command.equals("toggle")) {
+        int x = Integer.parseInt(st.nextToken());
+        bitmask ^= (1 << (x - 1));  // x번째 비트를 반전
+      } 
+      else if (command.equals("all")) {
+        bitmask = (1 << 20) - 1;  // 20개의 모든 비트를 1로 설정 (1111...1111)
+      } 
+      else if (command.equals("empty")) {
+        bitmask = 0;  // 모든 비트를 0으로 설정
       }
     }
-    System.out.print(sb);
+
+    bw.flush();
   }
 }
