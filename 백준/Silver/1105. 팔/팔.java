@@ -1,22 +1,30 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    String inps[] = br.readLine().split(" ");
+    StringTokenizer st = new StringTokenizer(br.readLine());
 
-    if (inps[0].length() != inps[1].length()) {
+    String L = st.nextToken();
+    String R = st.nextToken();
+
+    // 자릿수가 다르면 바로 0 출력
+    if (L.length() != R.length()) {
       System.out.println(0);
       return;
     }
 
-    int cnt = 0;
-    for (int i = 0; i < inps[0].length(); i++) {
-      if (inps[0].charAt(i) != inps[1].charAt(i)) break;
-      if (inps[0].charAt(i) == '8') cnt++;
+    int count = 0;
+
+    // 가장 높은 자리부터 비교
+    for (int i = 0; i < L.length(); i++) {
+      if (L.charAt(i) != R.charAt(i)) break;  // 다른 자리 수 등장하면 종료
+      if (L.charAt(i) == '8') count++;  // 같은 자리에서 8이면 카운트 증가
     }
-    System.out.println(cnt);
+
+    System.out.println(count);
   }
 }
