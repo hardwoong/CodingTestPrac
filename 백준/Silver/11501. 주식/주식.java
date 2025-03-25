@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.*;
 
 public class Main {
   public static void main(String[] args) throws IOException {
@@ -10,9 +9,9 @@ public class Main {
       int n = Integer.parseInt(br.readLine());
       int[] arr = new int[n];
 
-      StringTokenizer st = new StringTokenizer(br.readLine());
+      String inps[] = br.readLine().split(" ");
       for (int i = 0; i < n; i++) {
-        arr[i] = Integer.parseInt(st.nextToken());
+        arr[i] = Integer.parseInt(inps[i]);
       }
       long profit = 0;
       int max = 0;
