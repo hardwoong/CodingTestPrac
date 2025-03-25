@@ -1,52 +1,53 @@
+import java.io.*;
 import java.util.*;
 
 public class Main {
-  public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
-    String start = sc.nextLine();
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String N = br.readLine();
+
+    Queue<String> q = new LinkedList<>();
     Set<String> visited = new HashSet<>();
-    Queue<String> queue = new LinkedList<>();
-    queue.add(start);
-    visited.add(start);
 
-    int steps = 0;
+    q.offer(N);
+    visited.add(N);
 
-    while (!queue.isEmpty()) {
-      int size = queue.size();
+    int step = 0;
 
+    while (!q.isEmpty()) {
+      int size = q.size();
       for (int i = 0; i < size; i++) {
-        String cur = queue.poll();
-
-        // 정수값이 0이면 종료
-        if (Integer.parseInt(cur) == 0) {
-          System.out.println(steps);
+        String cur = q.poll();
+        if (cur.equals("0")) {
+          System.out.println(step);
           return;
         }
 
-        // 연산 1: 1 빼기
-        int num = Integer.parseInt(cur);
-        String minusOne = String.valueOf(num - 1);
-        if (!visited.contains(minusOne)) {
-          visited.add(minusOne);
-          queue.add(minusOne);
+        // 1. 숫자에서 1을 뺀다
+        long val = Long.parseLong(cur);
+        if (val > 0) {
+          String sub1 = String.valueOf(val - 1);
+          if (!visited.contains(sub1)) {
+            visited.add(sub1);
+            q.offer(sub1);
+          }
         }
 
-        // 연산 2: 문자열 내 '1' 제거
+        // 2. 문자열에서 '1'을 제거하는 모든 경우
         for (int j = 0; j < cur.length(); j++) {
           if (cur.charAt(j) == '1') {
-            String next = cur.substring(0, j) + cur.substring(j + 1);
-            // 앞자리 0 제거
-            next = next.replaceFirst("^0+", "");
-            if (next.equals("")) next = "0";
-            if (!visited.contains(next)) {
-              visited.add(next);
-              queue.add(next);
+            String removed = cur.substring(0, j) + cur.substring(j + 1);
+            // 앞의 0 제거
+            removed = removed.replaceFirst("^0+", "");
+            if (removed.equals("")) removed = "0";
+            if (!visited.contains(removed)) {
+              visited.add(removed);
+              q.offer(removed);
             }
           }
         }
       }
-
-      steps++;
+      step++;
     }
   }
 }
